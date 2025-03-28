@@ -1,3 +1,5 @@
+
+
 export async function getGmailMessages(accessToken: string) {
     const response = await fetch(
       "https://www.googleapis.com/gmail/v1/users/me/messages",
@@ -31,6 +33,7 @@ export async function startGmailWatch(accessToken:string){
      await fetch(url, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestData),
@@ -42,3 +45,10 @@ export async function startGmailWatch(accessToken:string){
     console.error("Error starting Gmail Watch:", error);
   }
 }
+
+
+
+
+
+
+

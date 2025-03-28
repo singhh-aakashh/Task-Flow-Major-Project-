@@ -41,8 +41,18 @@ export default function GmailInbox() {
     }
   }, [session, emailList]);
 
+//   const handleClick = async()=>{
+//     try {
+//         //@ts-ignore
+//         await createSpreadsheet(session.accessToken)
+//     } catch (error) {
+//         console.log(error)
+//     }
+//   }
+
   return (
     <div>
+        {/* <button className="outline-2 p-4" onClick={handleClick}> create sheet</button> */}
       <h1>Gmail Inbox</h1>
       {emailList.map((email:any) => (
         <p className="space-y-2 flex" key={email.id}>{email.id}</p>

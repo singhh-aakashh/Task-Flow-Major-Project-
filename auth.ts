@@ -13,7 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
-          scope:"openid email profile https://www.googleapis.com/auth/gmail.modify",
+          scope:"openid email profile https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/gmail.modify",
         },
       },
     }),
