@@ -35,17 +35,18 @@ import {
 import { useState } from "react";
 import { useFlowOptions } from "@/lib/store/flowStore";
 
-export const CustomNode = () => {
+export const CustomNode = ({data}:any) => {
   return (
     <>
       <div className=" w-64 h-20 bg-black rounded-md outline-amber-50 outline flex justify-center" suppressHydrationWarning>
         <div
-          className="w-full flex justify-center cursor-pointer"
+          className="w-full flex items-center justify-center cursor-pointer"
           data-drawer-target="drawer-example"
           data-drawer-show="drawer-example"
           aria-controls="drawer-example"
         >
-         <Dialog/>
+        <Dialog data={data} setNodeData={setNodeData}/>
+         
         </div>
         <Handle type="source" position={Position.Bottom} />
         <Handle type="target" position={Position.Top} />
@@ -54,14 +55,19 @@ export const CustomNode = () => {
   );
 };
 
-const Dialog = () =>{
-  
+const Dialog = ({data,setNodeData}:any) =>{
+ 
   const [isOpen, setIsOpen] = useState(false);
   const options = useFlowOptions();
+  
+  const onClick = ()=>{
+    setNodeData({  label: "Webhook" })
+  }
+
   return(
     <>
     <AlertDialog>
-    <AlertDialogTrigger className="w-full">Open</AlertDialogTrigger>
+    <AlertDialogTrigger className="w-full">{data.label}</AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogTitle>
         <VisuallyHidden>Are you sure?</VisuallyHidden>
@@ -72,7 +78,7 @@ const Dialog = () =>{
           <CardDescription>Choose from here</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col space-y-4">
-          {options.triggers.map((trigger)=><AlertDialogAction key={trigger.id} className="flex space-x-4"><img src={trigger.image} className="w-8" /><p>{trigger.name}</p></AlertDialogAction>)}
+          {options.triggers.map((trigger)=><AlertDialogAction key={trigger.id} onClick={onClick} className="flex space-x-4"><img src={trigger.image} className="w-8" /><p>{trigger.name}</p></AlertDialogAction>)}
         </CardContent>
       </Card>
       <AlertDialogFooter>

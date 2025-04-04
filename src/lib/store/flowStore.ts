@@ -1,29 +1,58 @@
 import { create } from "zustand";
-import { Node, Edge, Connection, addEdge, applyEdgeChanges, applyNodeChanges } from '@xyflow/react';
+import {  Edge, Connection, addEdge, applyEdgeChanges, applyNodeChanges } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
-import { stat } from "fs";
 
-let nodeId = 1;
+let nodeId = 2;
 
 interface ReactFlowState {
+  id:string,
+  userId:string,
+  name:string,
   nodes: Node[];
   edges: Edge[];
   addNode: () => void;
   onNodesChange: (changes: any) => void;
   onEdgesChange: (changes: any) => void;
   onConnect: (connection: Connection) => void;
+  setTrigger:(nodeId:string,triggerId:string)=>void;
+}
+
+interface Node{
+  id:string,
+  data:{
+    label:"Trigger" | "Action" |"Webhook"
+  }
+  triggerId?:string,
+  actionId?:string,
+  metaData?:any,
+  position:{
+    x:number,
+    y:number
+  },
+  type:"customNode",
 }
 
 export const useReactFlowState = create<ReactFlowState>((set, get) => ({
+  id: uuidv4(),
+  name:"Untitled Workflow",
+  userId:"1",
   nodes: [
     {
       id: "1",
-      position: { x: 550, y: 100 },
-      data: { label: "Node 1"  },
+      position: { x: 550, y: 150 },
+      data: { label: "Trigger"  },
       type: "customNode", 
     },
+    {
+      id:"2",
+      position:{x:550,y:300},
+      data:{label:"Action"},
+      type:"customNode"
+    }
   ],
-  edges: [],
+  edges: [
+    {id:`e1-2`,source:"1", target:"2",animated:true}
+  ],
   
   addNode: () => {
     const nodes = get().nodes;
@@ -34,8 +63,8 @@ export const useReactFlowState = create<ReactFlowState>((set, get) => ({
 
     const newNode: Node = {
       id: newNodeId,
-      position: { x: 550, y: nodes.length*150+100 },
-      data: { label: `Node ${newNodeId}` },
+      position: { x: 550, y: (nodes.length+1)*150 },
+      data: { label: "Action" },
       type: "customNode", 
     };
 
@@ -48,63 +77,64 @@ export const useReactFlowState = create<ReactFlowState>((set, get) => ({
   onNodesChange: (changes) => set((state) => ({ nodes: applyNodeChanges(changes, state.nodes) })),
   onEdgesChange: (changes) => set((state) => ({ edges: applyEdgeChanges(changes, state.edges) })),
   onConnect: (connection) => set((state) => ({ edges: addEdge(connection, state.edges) })),
+  setTrigger:(nodeId:string,triggerId:string)=> set((state) => ({nodes:state.nodes.map((node)=>node.id===nodeId?{...node,triggerId:triggerId,data:{label:"Webhook"}}:node)}))
 }));
 
-interface flowStep{
-  id : string,
-  stepType : "TRIGGER" | "ACTION",
-  triggerId?:string,
-  actionId?:string,
-  metaData?:any,
-  stepNumber:number
-}
+// interface flowStep{
+//   id : string,
+//   stepType : "TRIGGER" | "ACTION",
+//   triggerId?:string,
+//   actionId?:string,
+//   metaData?:any,
+//   stepNumber:number
+// }
 
-interface Flow {
-  id : string,
-  userId : string,
-  name : string,
-  workFlowSteps : flowStep[],
-  setName:(name:string)=>void,
-  addFlowStep:()=>void,
-  setTrigger:(flowStepId:string,triggerId:string)=>void,
-  setAction:(flowStepId:string,actionId:string)=>void,
-}
+// interface Flow {
+//   id : string,
+//   userId : string,
+//   name : string,
+//   workFlowSteps : flowStep[],
+//   setName:(name:string)=>void,
+//   addFlowStep:()=>void,
+//   setTrigger:(flowStepId:string,triggerId:string)=>void,
+//   setAction:(flowStepId:string,actionId:string)=>void,
+// }
 
-export const useFlow = create<Flow>((set)=>({
-  id : uuidv4(),
-  name:"Untitled Workflow",
-  userId:"1",
-  workFlowSteps:[{
-    id:uuidv4(),
-    stepType:"TRIGGER",
-    stepNumber:1,
-    metaData:{}
-  },
- {
-    id:uuidv4(),
-    stepType:"ACTION",
-    stepNumber:2,
-    metaData:{}
- }],
- setName:(name)=>set({name}),
- addFlowStep:()=>set((state)=>({
-  workFlowSteps:[
-    ...state.workFlowSteps,
-    {
-      id:uuidv4(),
-      stepType:"ACTION",
-      stepNumber:state.workFlowSteps.length+1,
-      metaData:{}
-    },
-  ]
- })),
- setTrigger:(flowStepId:string,triggerId:string)=>set((state)=>({
-  workFlowSteps:state.workFlowSteps.map((step)=>step.id ===flowStepId ? {...step,triggerId:triggerId}:step)
- })),
- setAction:(flowStepId:string,actionId:string)=>set((state)=>({
-  workFlowSteps:state.workFlowSteps.map((step)=>step.id===flowStepId?{...step,actionId:actionId}:step)
- }))
-}))
+// export const useFlow = create<Flow>((set)=>({
+//   id : uuidv4(),
+//   name:"Untitled Workflow",
+//   userId:"1",
+//   workFlowSteps:[{
+//     id:uuidv4(),
+//     stepType:"TRIGGER",
+//     stepNumber:1,
+//     metaData:{}
+//   },
+//  {
+//     id:uuidv4(),
+//     stepType:"ACTION",
+//     stepNumber:2,
+//     metaData:{}
+//  }],
+//  setName:(name)=>set({name}),
+//  addFlowStep:()=>set((state)=>({
+//   workFlowSteps:[
+//     ...state.workFlowSteps,
+//     {
+//       id:uuidv4(),
+//       stepType:"ACTION",
+//       stepNumber:state.workFlowSteps.length+1,
+//       metaData:{}
+//     },
+//   ]
+//  })),
+//  setTrigger:(flowStepId:string,triggerId:string)=>set((state)=>({
+//   workFlowSteps:state.workFlowSteps.map((step)=>step.id ===flowStepId ? {...step,triggerId:triggerId}:step)
+//  })),
+//  setAction:(flowStepId:string,actionId:string)=>set((state)=>({
+//   workFlowSteps:state.workFlowSteps.map((step)=>step.id===flowStepId?{...step,actionId:actionId}:step)
+//  }))
+// }))
 
 interface OptionsType {
   actions:{
