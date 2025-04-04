@@ -1,9 +1,9 @@
 "use client"
-import React, { useState } from 'react';
-import { Background, EdgeLabelRenderer, Handle, Position, ReactFlow, useReactFlow } from '@xyflow/react';
+import React from 'react';
+import { Background, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { Plus } from 'lucide-react';
-import { useReactFlowState } from '@/lib/store/flowStore';
+import { useFlow } from '@/lib/store/flowStore';
 import { CustomNode } from '@/components/react-flow/customNode';
 
 // page is using custom nodes which is shown 
@@ -14,7 +14,7 @@ const nodeTypes = { customNode: CustomNode };
 
 
 export default function Page() {
-  const { nodes, edges, addNode, onNodesChange, onEdgesChange, onConnect } = useReactFlowState();
+  const { nodes, edges, addNode, onNodesChange, onEdgesChange, onConnect } = useFlow();
 
   const print = () =>{
     console.log(nodes)
@@ -32,12 +32,6 @@ export default function Page() {
         onConnect={onConnect}
       >
         <button className="p-[1px]  relative z-10" onClick={addNode} >
-        <div className="absolute inset-0 bg-gradient-to-r rounded-full from-indigo-500 to-purple-500 " />
-        <div className="px-2 text-xl py-2  bg-black rounded-full  relative group transition duration-200 text-white hover:bg-transparent">
-          <Plus/>
-        </div>
-      </button>
-      <button className="p-[1px]  relative z-10" onClick={print} >
         <div className="absolute inset-0 bg-gradient-to-r rounded-full from-indigo-500 to-purple-500 " />
         <div className="px-2 text-xl py-2  bg-black rounded-full  relative group transition duration-200 text-white hover:bg-transparent">
           <Plus/>

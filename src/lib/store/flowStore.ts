@@ -32,7 +32,7 @@ interface Node{
   type:"customNode",
 }
 
-export const useReactFlowState = create<ReactFlowState>((set, get) => ({
+export const useFlow = create<ReactFlowState>((set, get) => ({
   id: uuidv4(),
   name:"Untitled Workflow",
   userId:"1",
@@ -79,62 +79,6 @@ export const useReactFlowState = create<ReactFlowState>((set, get) => ({
   onConnect: (connection) => set((state) => ({ edges: addEdge(connection, state.edges) })),
   setTrigger:(nodeId:string,triggerId:string)=> set((state) => ({nodes:state.nodes.map((node)=>node.id===nodeId?{...node,triggerId:triggerId,data:{label:"Webhook"}}:node)}))
 }));
-
-// interface flowStep{
-//   id : string,
-//   stepType : "TRIGGER" | "ACTION",
-//   triggerId?:string,
-//   actionId?:string,
-//   metaData?:any,
-//   stepNumber:number
-// }
-
-// interface Flow {
-//   id : string,
-//   userId : string,
-//   name : string,
-//   workFlowSteps : flowStep[],
-//   setName:(name:string)=>void,
-//   addFlowStep:()=>void,
-//   setTrigger:(flowStepId:string,triggerId:string)=>void,
-//   setAction:(flowStepId:string,actionId:string)=>void,
-// }
-
-// export const useFlow = create<Flow>((set)=>({
-//   id : uuidv4(),
-//   name:"Untitled Workflow",
-//   userId:"1",
-//   workFlowSteps:[{
-//     id:uuidv4(),
-//     stepType:"TRIGGER",
-//     stepNumber:1,
-//     metaData:{}
-//   },
-//  {
-//     id:uuidv4(),
-//     stepType:"ACTION",
-//     stepNumber:2,
-//     metaData:{}
-//  }],
-//  setName:(name)=>set({name}),
-//  addFlowStep:()=>set((state)=>({
-//   workFlowSteps:[
-//     ...state.workFlowSteps,
-//     {
-//       id:uuidv4(),
-//       stepType:"ACTION",
-//       stepNumber:state.workFlowSteps.length+1,
-//       metaData:{}
-//     },
-//   ]
-//  })),
-//  setTrigger:(flowStepId:string,triggerId:string)=>set((state)=>({
-//   workFlowSteps:state.workFlowSteps.map((step)=>step.id ===flowStepId ? {...step,triggerId:triggerId}:step)
-//  })),
-//  setAction:(flowStepId:string,actionId:string)=>set((state)=>({
-//   workFlowSteps:state.workFlowSteps.map((step)=>step.id===flowStepId?{...step,actionId:actionId}:step)
-//  }))
-// }))
 
 interface OptionsType {
   actions:{
