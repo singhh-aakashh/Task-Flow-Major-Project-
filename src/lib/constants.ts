@@ -6,5 +6,5 @@ import Workflows from "@/components/icons/workflows";
 export const menuOptions = [
     { name: 'Dashboard', Component: Home, href: '/dashboard' },
     { name: 'Workflows', Component: Workflows, href: '/flow/create' },
-    { name: 'Logs', Component: Logs, href: '/logs' },
+    { name: 'zaps', Component: Logs, href: '/flow/all' },
   ]

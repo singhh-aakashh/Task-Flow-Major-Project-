@@ -1,4 +1,6 @@
+
 import PageLayout from "@/components/app_component/pageLayout";
+import PageLayoutWrapper from "@/components/app_component/pageLayoutWrapper";
 import { SessionProvider } from "next-auth/react";
 
 export default function Layout({
@@ -7,11 +9,12 @@ export default function Layout({
     children: React.ReactNode;
   }>){
 
+
     return(
       <SessionProvider>
-       <PageLayout>
+       <PageLayoutWrapper>
         {children}
-       </PageLayout>
+       </PageLayoutWrapper>
        </SessionProvider>
     )
 }

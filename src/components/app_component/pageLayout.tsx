@@ -1,15 +1,16 @@
-import Link from "next/link";
+"use client"
 import UserAvatar from "./userAvatar";
-import {  Home, LogsIcon, Plus  } from "lucide-react"
 import { UserProvider } from "@/lib/store/userStore";
 import { auth } from "../../../auth";
 import Sidebar from "./sidebar";
+import { useEffect, useState } from "react";
+import { getUserId } from "@/lib/db/db";
 
 
-const PageLayout = async ({ children }: { children: React.ReactNode }) => {
-    const session = await auth();
+const PageLayout = async ({ children ,session ,id}: { children: React.ReactNode,session:any,id:any }) => {
+   
   return (
-    <UserProvider user={session?.user}>
+    <UserProvider user={{...session?.user,id:id}}>
     <main className="h-screen w-full flex items-center justify-center flex-col" suppressHydrationWarning>
       <header className="fixed right-0 left-0 top-0 py-4 px-4 bg-black  z-[100] flex items-center justify-between  space-x-10">
           <div className=" flex space-x-4">

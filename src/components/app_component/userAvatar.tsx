@@ -13,6 +13,7 @@ export default  function UserAvatar() {
     useEffect(()=>{
     setUserPic(user?.image ? user.image : undefined)
     setUserName(user?.email ? user.email.charAt(0).toUpperCase() : "A")
+    console.log(user)
     },[])
   console.log(userPic)
   
