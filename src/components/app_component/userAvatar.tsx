@@ -21,7 +21,7 @@ export default  function UserAvatar() {
     <DropdownMenu>
          <DropdownMenuTrigger asChild>
       <button type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-        { userPic? <Image className="w-10 h-10 rounded-full" width={10} height={10} src={userPic} alt="Rounded avatar"/>: <span className="font-medium text-gray-600 dark:text-gray-300">{userName}</span>} 
+        { userPic? <Image className="w-10 h-10 rounded-full" width={1000} height={1000} src={userPic} alt="Rounded avatar"/>: <span className="font-medium text-gray-600 dark:text-gray-300">{userName}</span>} 
       </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-4 mr-2 w-56">

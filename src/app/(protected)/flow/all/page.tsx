@@ -4,16 +4,25 @@ import { useUser } from "@/lib/store/userStore";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import FlowCard from "./_components/flowCard";
 
 export default function Page(){
+  const [isLoading, setIsLoading] = useState(false);
   const user:any = useUser();
-  console.log(user)
-  // const [userFlows,setUserFlows]=useState({})
-  // useEffect(()=>{
-  //   const fetchFlows = async () =>{
-  //     // const res = await getUserFlows()
-  //   }
-  // },[])
+  const [userFlows,setUserFlows]=useState<any>()
+  useEffect(()=>{
+    const fetchFlows = async () =>{
+      setIsLoading(true);
+      try {
+        const res = await getUserFlows(user?.id);
+        if (res?.flows) setUserFlows(res);
+        console.log(res)
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (user?.id) fetchFlows();
+  }, [user]);
     const router = useRouter();
     return(
         <>
@@ -29,9 +38,15 @@ export default function Page(){
     <div className="relative flex flex-col gap-4">
       <section className="flex flex-col gap-4 p-6 text-muted-foreground">
         Manage all your Task flow here. {user?.id}
-       {/* {
-        zaps?.map((zap:Zap)=><TaskFlowCard title={zap.name} zapSteps={zap.zapSteps} zapId={zap.id} isActive={zap.isActive} />)
-       } */}
+        {isLoading ? (
+          <div>Loading flows...</div>
+        ) : userFlows?.flows?.length ? (
+          userFlows.flows.map((flow:any) => (
+            <FlowCard flowId={flow.id} isActive={flow.isActive} name={flow.name} nodes={flow.nodes} key={flow.id}/>
+          ))
+        ) : (
+          <div>No flows found</div>
+        )}
       </section>
     </div>
   </>

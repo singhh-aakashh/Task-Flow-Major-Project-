@@ -1,14 +1,10 @@
 "use client"
 import UserAvatar from "./userAvatar";
 import { UserProvider } from "@/lib/store/userStore";
-import { auth } from "../../../auth";
 import Sidebar from "./sidebar";
-import { useEffect, useState } from "react";
-import { getUserId } from "@/lib/db/db";
 
 
-const PageLayout = async ({ children ,session ,id}: { children: React.ReactNode,session:any,id:any }) => {
-   
+const PageLayout = ({ children ,session ,id}: { children: React.ReactNode,session:any,id:any }) => {
   return (
     <UserProvider user={{...session?.user,id:id}}>
     <main className="h-screen w-full flex items-center justify-center flex-col" suppressHydrationWarning>
@@ -21,18 +17,6 @@ const PageLayout = async ({ children ,session ,id}: { children: React.ReactNode,
       </div>
       <UserAvatar/>
             </header>
-
-     
-      {/* <aside id="logo-sidebar" className="fixed top-0 left-0 bg-black z-40 w-20 h-screen pt-20 " aria-label="Sidebar">
-   <div className="flex flex-col pt-20 items-center space-y-8">
-    <Link href="/dashboard" >
-    <Home className="h-10 w-10"/>
-    </Link>
-    <Link href="/flow/create"><Plus className="h-10 w-10 border-2 rounded-full"/></Link>
-    <Link href="/logs"><LogsIcon className="h-10 w-10 "/></Link>
-
-   </div>
-</aside> */}
 <aside id="logo-sidebar" className="fixed top-0 left-0 bg-black z-40 w-20 h-screen pt-20 " aria-label="Sidebar">
   <Sidebar/>
 </aside>

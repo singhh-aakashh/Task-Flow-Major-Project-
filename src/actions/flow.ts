@@ -1,3 +1,4 @@
+"use server"
 import { prisma } from "../../prisma"
 
 export const getUserFlows = async(userId:string)=>{
@@ -5,6 +6,15 @@ export const getUserFlows = async(userId:string)=>{
         const flows = await prisma.flow.findMany({
             where:{
                 userId
+            },
+            include:{
+                nodes:{
+                    include:{
+                        trigger:true,
+                        action:true
+                    }
+                },
+                edges:true
             }
         })
         return {flows}

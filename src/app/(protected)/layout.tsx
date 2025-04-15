@@ -1,5 +1,4 @@
 
-import PageLayout from "@/components/app_component/pageLayout";
 import PageLayoutWrapper from "@/components/app_component/pageLayoutWrapper";
 import { SessionProvider } from "next-auth/react";
 

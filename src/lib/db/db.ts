@@ -15,6 +15,15 @@ export const getUserByEmail = async (email:string)=>{
     }
 }
 
+export const fetchTemplate = async (id:string)=>{
+    const res = await prisma.emailTemplate.findUnique({
+        where:{
+            id:id
+        }
+    })
+    return res?.htmlBody
+}
+
 export const getUserId = async (email:string)=>{
    
     console.log("email is ",email)

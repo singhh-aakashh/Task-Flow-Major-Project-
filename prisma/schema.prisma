@@ -84,3 +84,9 @@ model Flow {
   edges     Edge[]
   active    Boolean
 }
+
+model EmailTemplate {
+  id String @id @default(cuid())
+  htmlBody String
+  img  String
+}
