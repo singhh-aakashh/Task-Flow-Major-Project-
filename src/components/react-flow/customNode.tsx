@@ -38,6 +38,7 @@ import {
   useTriggerOptions,
   useActionOptions,
 } from "@/lib/store/flowStore";
+import EmailTemplates from "../app_component/emailTemplate";
 
 export const CustomNode = ({ id, data }: any) => {
   return (
@@ -109,11 +110,12 @@ const Dialog = ({ nodeId, data }: any) => {
                     <AlertDialogAction
                       key={action.id}
                       onClick={() =>
-                        setAction(nodeId, {
+                        {setAction(nodeId, {
                           id: action.id,
                           img: action.image,
                           name: action.name,
                         })
+                      setIsOpen(true)}
                       }
                       className="flex space-x-4"
                     >
@@ -135,9 +137,9 @@ const Dialog = ({ nodeId, data }: any) => {
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-            <DrawerDescription>This action cannot be undone.</DrawerDescription>
+            <DrawerTitle className="text-center">Select the email template</DrawerTitle>
           </DrawerHeader>
+          <div className="w-full h-full pb-10 p-4 "><EmailTemplates nodeId={nodeId}/></div>
           <DrawerFooter>
             <Button onClick={() => setIsOpen(false)}>Submit</Button>
             <DrawerClose>

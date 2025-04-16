@@ -43,7 +43,7 @@ model Trigger {
   id     String @id @default(cuid())
   name   String
   img    String
-  data   Json? 
+  data   String?
   nodeId String @unique
   node   Node   @relation(fields: [nodeId], references: [dbId])
 }
@@ -52,7 +52,7 @@ model Action {
   id     String @id @default(cuid())
   name   String
   img    String
-  data   Json? 
+  data   String?
   nodeId String @unique
   node   Node   @relation(fields: [nodeId], references: [dbId])
 }
@@ -87,6 +87,8 @@ model Flow {
 
 model EmailTemplate {
   id String @id @default(cuid())
-  htmlBody String
+  emailTemplate String
+  templateVariables  Json?
   img  String
 }
+

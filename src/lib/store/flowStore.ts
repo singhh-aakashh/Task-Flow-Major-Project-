@@ -25,6 +25,7 @@ interface FlowState {
   setTrigger: (nodeId: string, trigger: {name:string , id:string , img:string ,data?:any}) => void;
   setName: (newName:string) => void;
   setUserId:(userId:string) => void;
+  setActionData:(nodeId:string,data:string)=>void;
 }
 
 interface Node {
@@ -43,7 +44,7 @@ interface Node {
     name: string;
     id: string;
     img: string;
-    data?: any;
+    data?: string;
   };
   position: {
     x: number;
@@ -132,7 +133,24 @@ export const useFlow =create<FlowState>((set, get) => ({
     setName: (newName:string) => set((state)=>({
       name:newName
     })),
-    setUserId:(userId:string) =>set((state)=>({userId:userId}))
+    setUserId:(userId:string) =>set((state)=>({userId:userId})),
+    setActionData: (nodeId: string, data: string) =>
+      set((state) => ({
+        nodes: state.nodes.map((node) => {
+          if (node.id === nodeId) {
+            const prevAction = node.action || { id: uuidv4(), name: "", img: "" };
+    
+            return {
+              ...node,
+              action: {
+                ...prevAction,
+                data,
+              },
+            };
+          }
+          return node;
+        }),
+      })),
 }));
 
 interface TriggerOptionsType {

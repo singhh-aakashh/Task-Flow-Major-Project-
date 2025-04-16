@@ -15,13 +15,29 @@ export const getUserByEmail = async (email:string)=>{
     }
 }
 
-export const fetchTemplate = async (id:string)=>{
-    const res = await prisma.emailTemplate.findUnique({
-        where:{
-            id:id
-        }
-    })
-    return res?.htmlBody
+export const fetchTemplateVariables = async (id:string)=>{
+    try {
+        console.log("checking id in db",id)
+        const res = await prisma.emailTemplate.findUnique({
+            where:{
+                id:id
+            }
+        })
+        console.log("db res is ",res)
+        return res
+    }
+     catch (error) {
+        console.log(error)
+    }
+}
+    
+export const fetchEmailTemplate = async () =>{
+    try {
+        const res = await prisma.emailTemplate.findMany();
+        return res;
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const getUserId = async (email:string)=>{

@@ -1,4 +1,4 @@
-import EmailTemplates from "./_components/emailTemplate";
+import EmailTemplates from "../../../components/app_component/emailTemplate";
 
 export default function Page(){
     return(
