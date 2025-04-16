@@ -8,16 +8,15 @@ import { CustomNode } from "@/components/react-flow/customNode";
 import { getUserId } from "@/lib/db/db";
 import { useUser } from "@/lib/store/userStore";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
-// page is using custom nodes which is shown
-
-// 🔹 Custom Node Type Mapping
 const nodeTypes = { customNode: CustomNode };
 
 export default function Page() {
   const user: any = useUser();
   const flow = useFlow();
 
+  const router = useRouter();
   console.log(user);
 
   if (user?.email) {
@@ -28,7 +27,6 @@ export default function Page() {
           console.log("heloooo");
           console.log(userId);
           if (userId) {
-            
             flow.setUserId(userId);
           }
         } catch (error) {
@@ -59,6 +57,7 @@ export default function Page() {
         }),
       });
       const data = await res.json();
+      router.push("/flow/all")
       console.log(data);
     } catch (error) {
       console.log(error);

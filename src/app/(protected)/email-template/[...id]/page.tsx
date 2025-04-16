@@ -48,7 +48,6 @@ export default function Page() {
   };
 
   const handleClick =()=>{
-    flow.setName("fuck you")
    if(nodeId) flow.setActionData(nodeId,emailTemp);
     router.push("/flow/create")
   }
